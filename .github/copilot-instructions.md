@@ -1,0 +1,4 @@
+- Project: SupportFlow Visual Builder
+- Stack: React, Vite, TailwindCSS
+- Purpose: Visual decision-tree/chatbot flow editor shell
+- Notes: Initial layout only, no graph rendering libraries used
