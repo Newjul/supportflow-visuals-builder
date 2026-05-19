@@ -1,6 +1,6 @@
 # SupportFlow Visual Builder
 
-A React + Vite prototype for a visual chatbot decision-tree editor.
+Interactive flowchart builder for designing, editing, and testing AI customer support conversations.
 
 ## Project setup
 
