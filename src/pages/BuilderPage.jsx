@@ -5,7 +5,7 @@ import CanvasPanel from '../components/CanvasPanel'
 import PropertiesPanel from '../components/PropertiesPanel'
 
 function BuilderPage() {
-  const flow = initialFlow?.[0]
+  const [flow, setFlow] = useState(initialFlow?.[0])
   const nodesById = useMemo(
     () => new Map(flow?.nodes?.map((node) => [node.id, node]) || []),
     [flow]
@@ -50,6 +50,20 @@ function BuilderPage() {
     setPathIds((prev) => [...prev, nextNode.id])
   }
 
+  const updateNodeText = (nodeId, text) => {
+    setFlow((prev) => ({
+      ...prev,
+      nodes: prev.nodes.map((node) =>
+        node.id === nodeId
+          ? {
+              ...node,
+              text,
+            }
+          : node
+      ),
+    }))
+  }
+
   const restartConversation = () => {
     if (!startNode) return
     setCurrentNodeId(startNode.id)
@@ -69,6 +83,8 @@ function BuilderPage() {
         <Sidebar
           messages={messages}
           options={options}
+          currentNode={currentNode}
+          onUpdateNodeText={updateNodeText}
           handleOptionSelect={handleOptionSelect}
           restartConversation={restartConversation}
         />

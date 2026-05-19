@@ -1,11 +1,40 @@
+import { useEffect, useState } from 'react'
+
 const navItems = [
   { label: 'Flow Builder', active: true },
   { label: 'Preview Mode', active: false },
   { label: 'Settings', active: false },
 ]
 
-function Sidebar({ messages, options, handleOptionSelect, restartConversation }) {
+function Sidebar({ messages, options, currentNode, onUpdateNodeText, handleOptionSelect, restartConversation }) {
+  const [editingNodeId, setEditingNodeId] = useState(null)
+  const [draftText, setDraftText] = useState('')
   const isComplete = !options.length
+
+  useEffect(() => {
+    if (!currentNode || currentNode.id !== editingNodeId) {
+      setEditingNodeId(null)
+      setDraftText('')
+    }
+  }, [currentNode, editingNodeId])
+
+  const handleEditClick = () => {
+    if (!currentNode) return
+    setEditingNodeId(currentNode.id)
+    setDraftText(currentNode.text)
+  }
+
+  const handleDraftChange = (event) => {
+    const value = event.target.value
+    setDraftText(value)
+    if (editingNodeId) {
+      onUpdateNodeText(editingNodeId, value)
+    }
+  }
+
+  const handleBlur = () => {
+    setEditingNodeId(null)
+  }
 
   return (
     <aside className="w-full max-w-none shrink-0 space-y-8 rounded-[28px] border border-slate-200 bg-white p-6 shadow-panel">
@@ -60,13 +89,19 @@ function Sidebar({ messages, options, handleOptionSelect, restartConversation })
               <p className="text-sm font-semibold text-slate-900">Live support chat</p>
               <p className="text-xs text-slate-500">The sidebar shows your current path and user replies.</p>
             </div>
-            <button
-              type="button"
-              onClick={restartConversation}
-              className="rounded-2xl bg-slate-100 px-3 py-2 text-xs font-medium text-slate-700 hover:bg-slate-200"
-            >
-              Restart
-            </button>
+            {currentNode?.type === 'end' ? (
+              <button
+                type="button"
+                onClick={restartConversation}
+                className="rounded-2xl bg-slate-100 px-3 py-2 text-xs font-medium text-slate-700 hover:bg-slate-200"
+              >
+                Restart
+              </button>
+            ) : (
+              <div className="rounded-2xl bg-slate-50 px-3 py-2 text-[11px] font-medium text-slate-500">
+                Restart available at end node
+              </div>
+            )}
           </div>
 
           <div className="mt-4 flex-1 space-y-4 overflow-y-auto pr-1">
@@ -111,6 +146,56 @@ function Sidebar({ messages, options, handleOptionSelect, restartConversation })
                 <p className="mt-2">No further options are available for this node. Restart to begin again.</p>
               </div>
             )}
+          </div>
+
+          <div className="mt-6 space-y-3 rounded-[24px] border border-slate-200 bg-slate-50 p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs uppercase tracking-[0.25em] text-slate-400">Editable question</p>
+                <p className="text-sm text-slate-600">Edit the current question text live as you move through the flow.</p>
+              </div>
+              <span className="rounded-full bg-slate-100 px-3 py-1 text-[11px] font-semibold text-slate-700">Live</span>
+            </div>
+
+            <div className="space-y-3">
+              {currentNode && currentNode.type === 'question' ? (
+                <div className="rounded-3xl border border-slate-200 bg-white p-3 shadow-sm">
+                  <div className="mb-2 flex items-center justify-between gap-3">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.25em] text-slate-400">Question {currentNode.id}</p>
+                      <p className="text-sm font-medium text-slate-900">{currentNode.type}</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleEditClick}
+                      className="rounded-2xl bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-200"
+                    >
+                      {editingNodeId === currentNode.id ? 'Editing' : 'Edit'}
+                    </button>
+                  </div>
+                  {editingNodeId === currentNode.id ? (
+                    <textarea
+                      autoFocus
+                      value={draftText}
+                      onChange={handleDraftChange}
+                      onBlur={handleBlur}
+                      rows={3}
+                      className="w-full resize-none rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 focus:border-indigo-500 focus:outline-none"
+                    />
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={handleEditClick}
+                      className="w-full rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm text-slate-700 hover:border-indigo-500 hover:bg-slate-100"
+                    >
+                      {currentNode.text}
+                    </button>
+                  )}
+                </div>
+              ) : (
+                <p className="text-sm text-slate-500">Select a question node in the flow to edit its text.</p>
+              )}
+            </div>
           </div>
         </div>
       </div>
