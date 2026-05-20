@@ -25,12 +25,12 @@ export default function BuilderPage(){
 
   return(
     <div className="bg-gray-200 flex-1 overflow-auto p-6">
-        <button
+     { mode === "edit" ? (<>
+      <button
            onClick={() => setMode(mode === "edit" ? "preview":"edit")}
            className="absolute top-4 left-4 z-50 bg-black text-white px-3 py-1 rounded">
             {mode === "edit" ? "Play Preview":"Back to Editor"}
            </button>
-     { mode === "edit" ? (<>
       <div className="relative bg-white shadow-xl"
        style={{
         width:w,
@@ -54,8 +54,14 @@ export default function BuilderPage(){
          nodesState={nodeState}
          setNodesState={setNodestate}/>
       </>):(
+      
         <div
          className="absolute inset-0 flex items-center justify-center bg-white/90 z-[100]">
+            <button
+           onClick={() => setMode(mode === "edit" ? "preview":"edit")}
+           className="absolute top-4 left-4 z-50 bg-black text-white px-3 py-1 rounded">
+            {mode === "edit" ? "Play Preview":"Back to Editor"}
+           </button>
          <div
          className="w-96 bg-white shadow-x1 rounded-x1 p-4 border">
             <div
@@ -76,19 +82,13 @@ export default function BuilderPage(){
                 ))}
             </div>
             {!currentNode?.options?.length && (
-                <div
-                className="relative bg-white shadow-xl"
-                key={{
-                    width:w,
-                    height:h,
-                    position: "relative",
-                }}>
+             
                 <button
                 className="mt-4 w-full bg-black text-white py-2 rounded"
                 onClick={()=>setCurrentNodeId("1")}>
                     Restart
                 </button>
-                </div>
+                
             )}
          </div>
       </div>)}
