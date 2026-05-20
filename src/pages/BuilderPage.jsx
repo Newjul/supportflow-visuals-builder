@@ -55,7 +55,7 @@ export default function BuilderPage(){
          setNodesState={setNodestate}/>
       </>):(
         <div
-         className="absolute inset-0 flex items-center justify-center bg-white/90 z-50">
+         className="absolute inset-0 flex items-center justify-center bg-white/90 z-[100]">
          <div
          className="w-96 bg-white shadow-x1 rounded-x1 p-4 border">
             <div
@@ -76,11 +76,19 @@ export default function BuilderPage(){
                 ))}
             </div>
             {!currentNode?.options?.length && (
+                <div
+                className="relative bg-white shadow-xl"
+                key={{
+                    width:w,
+                    height:h,
+                    position: "relative",
+                }}>
                 <button
                 className="mt-4 w-full bg-black text-white py-2 rounded"
-                onClick={()=>selectNodeId("1")}>
+                onClick={()=>setCurrentNodeId("1")}>
                     Restart
                 </button>
+                </div>
             )}
          </div>
       </div>)}
