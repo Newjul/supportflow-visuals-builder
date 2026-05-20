@@ -53,8 +53,36 @@ export default function BuilderPage(){
          selectedNode={selectedNode}
          nodesState={nodeState}
          setNodesState={setNodestate}/>
-      </>):(<div>
-        <h2 className="text-color-black">Previw pannel</h2>
+      </>):(
+        <div
+         className="absolute inset-0 flex items-center justify-center bg-white/90 z-50">
+         <div
+         className="w-96 bg-white shadow-x1 rounded-x1 p-4 border">
+            <div
+            className="text-sm font-medium mb-4">
+                {currentNode?.text}
+            </div>
+            <div
+            className="space-y-2">
+                {currentNode?.options.map((opti,i)=>
+                (
+                    <button
+                    key={i}
+                    className="w-full text-left bg-gray-100 
+                    hover:bg-gray-200 px-3 py-2 rounded"
+                    onClick={()=>setCurrentNodeId(opti.nextId)}>
+                        {opti.label}
+                    </button>
+                ))}
+            </div>
+            {!currentNode?.options?.length && (
+                <button
+                className="mt-4 w-full bg-black text-white py-2 rounded"
+                onClick={()=>selectNodeId("1")}>
+                    Restart
+                </button>
+            )}
+         </div>
       </div>)}
         
     </div>
