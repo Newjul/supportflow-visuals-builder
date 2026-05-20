@@ -1,6 +1,6 @@
 export default function Node({node}){
   return (
-    <div className="absolute w-72 rounded-x1 border bg-white p-4 shadow"
+    <div className="absolute w-72 rounded-x1 border bg-blue-100 p-4 shadow"
     style={{
       left: `${node.position.x}px`,
       top:`${node.position.y}px`,

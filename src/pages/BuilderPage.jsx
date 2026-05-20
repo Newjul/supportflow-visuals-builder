@@ -1,5 +1,6 @@
 import flow from "../data/flow_data.json"
 import Node from "../components/Node"
+import ConnectorLayer from "../components/ConnectorLayer";
 
 export default function BuilderPage(){
   const {meta, nodes} = flow;
@@ -16,6 +17,7 @@ export default function BuilderPage(){
          style={{
           backgroundSize: "40px 40px"
          }}>
+          <ConnectorLayer nodes={nodes}/>
           {flow.nodes.map((node)=>(
             <Node key={node.id} node={node}/>
           ))}
