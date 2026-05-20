@@ -1,4 +1,4 @@
-import BuilderPage from './pages/BuilderPage'
+import BuilderPage from "./pages/BuilderPage"
 
 function App() {
   return <BuilderPage />

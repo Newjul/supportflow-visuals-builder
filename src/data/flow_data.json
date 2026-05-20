@@ -1,4 +1,4 @@
-export const initialFlow = [
+
  {
   "meta": {
     "theme": "dark",
@@ -58,6 +58,5 @@ export const initialFlow = [
     }
   ]
 }
-]
 
-export default initialFlow
+
