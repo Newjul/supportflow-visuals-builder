@@ -16,8 +16,8 @@ export default function BuilderPage(){
     n.id === selectNodeId);
 
   return(
-    <div className="h-screen w-full bg-gray-200 flex items-stretch">
-      <div className="flex-1 flex items-center justify-content"
+    <div className="bg-gray-200 flex-1 overflow-auto p-6">
+      <div className="relative bg-white shadow-xl"
        style={{
         width:w,
         height:h,

@@ -2,13 +2,19 @@ export default function PropertiesPanel({
     selectedNode,
     nodesState,
     setNodesState,
-}){
-
+}){ 
+    if (!selectedNode) return null;
+    const panelOffsetX = 320;
+    const panelOffsetY = -20;
     return (
-        <div className="w-80 border-l bg-red p-4 h-full">
-            <h2 className="mb-4 text-sum font-semibold">
-                Edit Panel
-            </h2>
+        <div className="absolute w-64 bg-white border shadow-lg rounded-lg p-3 z-50"
+        style={{
+            left:selectedNode.position.x + panelOffsetX,
+            top:selectedNode.position.y + panelOffsetY,
+        }}>
+            <div className="text-xs text-gray-500 mb-2">
+                Editing Node
+            </div>
             {!selectedNode ? (
                 <div className="text-sm text-gray-400">
                     Select a node </div>):(
