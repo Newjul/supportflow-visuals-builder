@@ -84,7 +84,16 @@ const handleMouseUp = useCallback(() => {
        }}
        >
         <button
-           onClick={() => setMode(mode === "edit" ? "preview":"edit")}
+           onClick={() => {
+     if (mode === "edit") {
+       if (messages.length === 0) {
+         setMessages([{ from: "bot", text: nodeMap["1"]?.text }]);
+       }
+       setMode("preview");
+     } else {
+       setMode("edit");
+     }
+   }}
            className="absolute top-4 left-4 z-50 bg-indigo-500 hover:bg-indigo-600 text-white text-sm px-4 py-1.5 rounded-xl shadow transition-colors">
             {mode === "edit" ? "▶ Preview":"← Editor"}
            </button>
