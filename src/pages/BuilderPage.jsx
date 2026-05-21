@@ -101,6 +101,11 @@ const handleMouseUp = useCallback(() => {
          style={{
           backgroundSize: "40px 40px"
          }}>
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+               <span className="text-8xl font-black text-slate-200 select-none tracking-widest">
+                     EDITOR MODE
+                </span>
+          </div>
           <ConnectorLayer nodes={nodeState}/>
           {nodeState.map((node)=>(
             <Node key={node.id} node={node}
