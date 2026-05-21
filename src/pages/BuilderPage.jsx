@@ -13,6 +13,7 @@ export default function BuilderPage(){
 
   const [mode, setMode] = useState("edit");
   const [currentNodeId, setCurrentNodeId] = useState("1");
+  
 
   const {meta, nodes} = flow;
   const {w, h} = meta.canvas_size;
@@ -23,7 +24,7 @@ export default function BuilderPage(){
   const nodeMap = Object.fromEntries(
     nodeState.map((n)=>[n.id, n])
   );
-
+  const [messages, setMessages] = useState([]);
   const selectedNode = nodeState.find((n) => 
     n.id === selectNodeId);
 
@@ -105,44 +106,74 @@ const handleMouseUp = useCallback(() => {
          nodesState={nodeState}
         />
       </>):(
-      
-        <div
-         className="absolute inset-0 flex items-center justify-center bg-white/90 z-[100]">
-            <button
-           onClick={() => setMode(mode === "edit" ? "preview":"edit")}
-           className="absolute top-4 left-4 z-50 bg-indigo-500 hover:bg-indigo-600 text-white text-sm px-4 py-1.5 rounded-xl shadow transition-colors">
-            {mode === "edit" ? "▶ Preview":"← Editor"}
-           </button>
-         <div
-         className="w-96 bg-white shadow-x1 rounded-x1 p-4 border">
-            <div
-            className="text-sm font-medium mb-4">
-                {currentNode?.text}
-            </div>
-            <div
-            className="space-y-2">
-                {currentNode?.options.map((opti,i)=>
-                (
-                    <button
-                    key={i}
-                    className="w-full text-left bg-gray-100 
-                    hover:bg-gray-200 px-3 py-2 rounded"
-                    onClick={()=>setCurrentNodeId(opti.nextId)}>
-                        {opti.label}
-                    </button>
-                ))}
-            </div>
-            {!currentNode?.options?.length && (
-             
-                <button
-                className="mt-4 w-full bg-black text-white py-2 rounded"
-                onClick={()=>setCurrentNodeId("1")}>
-                    Restart
-                </button>
-                
-            )}
-         </div>
-      </div>)}
+        <div className="absolute inset-0 flex flex-col bg-[#f0f4f8] z-[100]">
+  
+  {/* Header */}
+  <div className="bg-blue-600 px-6 py-4 flex items-center justify-between">
+    <div>
+      <div className="text-white font-bold text-lg">SupportFlow AI</div>
+      <div className="text-blue-200 text-xs">Visual Decision Tree Editor</div>
+    </div>
+    <button
+      onClick={() => {
+        setMode("edit");
+        setCurrentNodeId("1");
+        setMessages([]);
+      }}
+      className="bg-white text-blue-600 text-sm px-4 py-1.5 rounded-xl shadow font-medium">
+      ← Editor
+    </button>
+  </div>
+
+  {/* Chat area */}
+  <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3">
+    {messages.map((msg, i) => (
+      <div key={i} className={`flex ${msg.from === "user" ? "justify-end" : "justify-start"}`}>
+        <div className={`max-w-xs px-4 py-2 rounded-2xl text-sm
+          ${msg.from === "user"
+            ? "bg-blue-600 text-white rounded-br-sm"
+            : "bg-white text-gray-800 shadow rounded-bl-sm"}`}>
+          {msg.text}
+        </div>
+      </div>
+    ))}
+
+    {/* Current options */}
+    <div className="flex flex-col items-end space-y-2 mt-2">
+      {currentNode?.options.map((opti, i) => (
+        <button
+          key={i}
+          onClick={() => {
+            setMessages((prev) => [
+              ...prev,
+              { from: "user", text: opti.label },
+              { from: "bot", text: nodeMap[opti.nextId]?.text },
+            ]);
+            setCurrentNodeId(opti.nextId);
+          }}
+          className="bg-white border border-gray-300 hover:bg-blue-50 
+          text-gray-700 text-sm px-4 py-2 rounded-2xl shadow-sm transition-colors">
+          {opti.label}
+        </button>
+      ))}
+    </div>
+
+    {/* Restart button at end node */}
+    {!currentNode?.options?.length && (
+      <div className="flex justify-center mt-4">
+        <button
+          onClick={() => {
+            setCurrentNodeId("1");
+            setMessages([{ from: "bot", text: nodeMap["1"]?.text }]);
+          }}
+          className="bg-blue-600 text-white px-6 py-2 rounded-xl text-sm">
+          Restart
+        </button>
+      </div>
+    )}
+  </div>
+</div>
+      )}
         
     </div>
     
