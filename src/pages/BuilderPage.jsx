@@ -2,9 +2,15 @@ import flow from "../data/flow_data.json"
 import Node from "../components/Node"
 import ConnectorLayer from "../components/ConnectorLayer";
 import PropertiesPanel from "../components/PropertiesPanel";
-import { useState } from "react";
+import { useState  } from "react";
+import { useRef } from "react";
+import {useCallback} from "react";
 
 export default function BuilderPage(){
+
+ const dragOffset = useRef({ x: 0, y: 0 });
+ const draggingId = useRef(null);
+
   const [mode, setMode] = useState("edit");
   const [currentNodeId, setCurrentNodeId] = useState("1");
 
@@ -23,20 +29,61 @@ export default function BuilderPage(){
 
   const currentNode = nodeMap[currentNodeId];
 
+
+const handleMouseMove = useCallback((e) => {
+    if (!draggingId.current) return;
+    setNodestate((prev) =>
+      prev.map((n) =>
+        n.id === draggingId.current
+          ? {
+              ...n,
+              position: {
+                x: e.clientX - dragOffset.current.x,
+                y: e.clientY - dragOffset.current.y,
+              },
+            }
+          : n
+      )
+    );
+  }, []);
+
+const handleMouseUp = useCallback(() => {
+    draggingId.current = null;
+    window.removeEventListener("mousemove", handleMouseMove);
+    window.removeEventListener("mouseup", handleMouseUp);
+  }, [handleMouseMove]);
+
+  const handleMouseDown = useCallback((e, nodeId) => {
+    e.stopPropagation();
+    draggingId.current = nodeId;
+
+    const node = nodeState.find((n) => n.id === nodeId);
+    dragOffset.current = {
+      x: e.clientX - node.position.x,
+      y: e.clientY - node.position.y,
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+  }, [nodeState, handleMouseMove, handleMouseUp]);
+
+
   return(
     <div className="bg-gray-200 flex-1 overflow-auto p-6">
      { mode === "edit" ? (<>
-      <button
-           onClick={() => setMode(mode === "edit" ? "preview":"edit")}
-           className="absolute top-4 left-4 z-50 bg-black text-white px-3 py-1 rounded">
-            {mode === "edit" ? "Play Preview":"Back to Editor"}
-           </button>
+      
       <div className="relative bg-white shadow-xl"
        style={{
         width:w,
         height:h,
         position: "relative",
-       }}>
+       }}
+       >
+        <button
+           onClick={() => setMode(mode === "edit" ? "preview":"edit")}
+           className="absolute top-4 left-4 z-50 bg-black text-white px-3 py-1 rounded">
+            {mode === "edit" ? "Play Preview":"Back to Editor"}
+           </button>
         <div className="absolute inset-0"
          style={{
           backgroundSize: "40px 40px"
@@ -45,7 +92,8 @@ export default function BuilderPage(){
           {nodeState.map((node)=>(
             <Node key={node.id} node={node}
             onSelect={setSelectNodeId}
-            selected={selectNodeId === node.id}/>
+            selected={selectNodeId === node.id}
+            onMouseDown={handleMouseDown}/>
           ))}
          </div>
       </div>

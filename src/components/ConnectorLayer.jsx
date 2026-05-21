@@ -4,30 +4,33 @@ export default function ConnectorLayer({nodes}){
   );
 
   const NODE_WIDTH = 288;
-  const NODE_HEIGHT = 120;
+  const NODE_HEIGHT = 100;
 
-  const getCenter = (node) => ({
-    x: node.position.x + NODE_WIDTH/2,
-    y: node.position.y + NODE_HEIGHT/2,
-  });
+  const getBottom = (node) => ({
+  x: node.position.x + NODE_WIDTH / 2,
+  y: node.position.y + NODE_HEIGHT,   
+});
+
+const getTop = (node) => ({
+  x: node.position.x + NODE_WIDTH / 2,
+  y: node.position.y,                  
+});
 
   const paths = [];
 
   nodes.forEach((node) => {
-    const from = getCenter(node);
     node.options.forEach((opt)=>{
       const target = nodeMap[opt.nextId];
       if (!target) return;
 
-      const to = getCenter(target);
-
-      const midX = (from.x + to.x)/2;
-
+      const from = getBottom(node);   
+      const to = getTop(target);      
+      const dy = Math.abs(to.y - from.y) * 0.5;  
       const path = `
-      M ${from.x} ${from.y}
-      C ${midX} ${to.y}
-        ${midX} ${from.y}
-        ${to.x} ${to.y}`;
+          M ${from.x} ${from.y}
+          C ${from.x} ${from.y + dy}   
+            ${to.x}   ${to.y - dy}      
+            ${to.x}   ${to.y}`;
       paths.push({path});
     });
   });
