@@ -69,20 +69,23 @@ const handleMouseUp = useCallback(() => {
 
 
   return(
-    <div className="bg-gray-200 flex-1 overflow-auto p-6">
+    <div className="bg-slate-100 flex-1 overflow-auto p-8">
      { mode === "edit" ? (<>
       
-      <div className="relative bg-white shadow-xl"
+      <div className="relative bg-white shadow-xl rounded-2xl overflow-hidden"
+
        style={{
         width:w,
         height:h,
         position: "relative",
+        backgroundImage: "radial-gradient(circle, #cbd5e1 1px, transparent 1px)",
+        backgroundSize: "28px 28px",
        }}
        >
         <button
            onClick={() => setMode(mode === "edit" ? "preview":"edit")}
-           className="absolute top-4 left-4 z-50 bg-black text-white px-3 py-1 rounded">
-            {mode === "edit" ? "Play Preview":"Back to Editor"}
+           className="absolute top-4 left-4 z-50 bg-indigo-500 hover:bg-indigo-600 text-white text-sm px-4 py-1.5 rounded-xl shadow transition-colors">
+            {mode === "edit" ? "▶ Preview":"← Editor"}
            </button>
         <div className="absolute inset-0"
          style={{
@@ -100,7 +103,7 @@ const handleMouseUp = useCallback(() => {
       <PropertiesPanel
          selectedNode={selectedNode}
          nodesState={nodeState}
-         setNodesState={setNodestate}/>
+        />
       </>):(
       
         <div

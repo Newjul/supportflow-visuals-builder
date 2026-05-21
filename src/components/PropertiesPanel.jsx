@@ -2,6 +2,7 @@ export default function PropertiesPanel({
     selectedNode,
     nodesState,
     setNodesState,
+    
 }){ 
     if (!selectedNode) return null;
     const panelOffsetX = 320;
