@@ -126,8 +126,6 @@ const handleMouseUp = useCallback(() => {
     <button
       onClick={() => {
         setMode("edit");
-        setCurrentNodeId("1");
-        setMessages([]);
       }}
       className="bg-white text-blue-600 text-sm px-4 py-1.5 rounded-xl shadow font-medium">
       ← Editor
