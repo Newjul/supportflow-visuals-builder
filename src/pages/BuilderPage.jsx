@@ -110,8 +110,8 @@ const handleMouseUp = useCallback(() => {
          className="absolute inset-0 flex items-center justify-center bg-white/90 z-[100]">
             <button
            onClick={() => setMode(mode === "edit" ? "preview":"edit")}
-           className="absolute top-4 left-4 z-50 bg-black text-white px-3 py-1 rounded">
-            {mode === "edit" ? "Play Preview":"Back to Editor"}
+           className="absolute top-4 left-4 z-50 bg-indigo-500 hover:bg-indigo-600 text-white text-sm px-4 py-1.5 rounded-xl shadow transition-colors">
+            {mode === "edit" ? "▶ Preview":"← Editor"}
            </button>
          <div
          className="w-96 bg-white shadow-x1 rounded-x1 p-4 border">
