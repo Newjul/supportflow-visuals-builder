@@ -23,6 +23,11 @@ Click any node to open a floating properties panel beside it. Edit the question 
 ### Drag and Drop
 Every node is draggable via `mousedown` → `mousemove` → `mouseup` listeners attached to the window. Connector lines recalculate and follow in real time as you reposition nodes.
 
+### Node Search
+A search bar in the top right of the canvas filters nodes by question 
+text in real time. Matching nodes stay fully visible while non-matching 
+ones fade out, making it easy to locate specific nodes in large flows.
+
 ### Chat Preview Mode
 Hit **▶ Preview** to switch into a WhatsApp-style chat interface. The start node opens the conversation as a bot bubble on the left. Click an option and it appears as a blue bubble on the right, then the next question follows below it — building a natural chat thread as you go. Hit **← Editor** to jump back and inspect any node, then return to preview exactly where you left off.
 
@@ -48,7 +53,7 @@ No `react-flow`. No `jsPlumb`. No Bootstrap. No Material UI. Everything rendered
 ## Getting Started
 
 ```bash
-git clone https://github.com/your-username/supportflow-visual-builder
+git clone https://github.com/Newjul/supportflow-visual-builder
 cd supportflow-visual-builder
 npm install
 npm run dev
