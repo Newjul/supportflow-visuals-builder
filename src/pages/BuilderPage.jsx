@@ -102,20 +102,22 @@ const handleMouseUp = useCallback(() => {
          style={{
           backgroundSize: "40px 40px"
          }}>
-          <div className="absolute inset-0 flex flex-col items-center pointer-events-none">
-                <div className="mt-4 flex flex-col items-center gap-2 pointer-events-auto">
-                      <input
-                         type="text"
-                         placeholder="Search nodes..."
-                         value={searchQuery}
-                         onChange={(e) => setSearchQuery(e.target.value)}
-                         className="w-64 px-4 py-1.5 text-sm rounded-xl border border-slate-300 
-                         shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-300"
-                             />
-                      <span className="text-xs text-slate-400 select-none tracking-wide">
-                       Click and Hold to Drag and Drop the Node
-                      </span>
-                </div>
+    <div className="absolute inset-0 flex flex-col items-center pointer-events-none">
+         
+          <span className="absolute top-4 left-1/2 -translate-x-1/2 text-xs text-slate-400 select-none tracking-wide">
+               Click and Hold to Drag and Drop the Node
+          </span>
+          <div className="absolute top-2 right-4 pointer-events-auto">
+              <input
+                  type="text"
+                  placeholder="Search nodes..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-52 px-4 py-1.5 text-sm rounded-xl border border-slate-300 
+                  shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-300"
+              />
+              </div>
+            
             <div className="flex-1 flex items-center justify-center">
                 <span className="text-8xl font-black text-slate-200 select-none tracking-widest">
                      EDITOR MODE
