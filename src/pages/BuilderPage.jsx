@@ -101,10 +101,15 @@ const handleMouseUp = useCallback(() => {
          style={{
           backgroundSize: "40px 40px"
          }}>
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-               <span className="text-8xl font-black text-slate-200 select-none tracking-widest">
-                     EDITOR MODE
+          <div className="absolute inset-0 flex flex-col items-center pointer-events-none">
+                <span className="mt-4 text-xs text-slate-400 select-none tracking-wide">
+                    Click and Hold to Drag and Drop the Node
                 </span>
+            <div className="flex-1 flex items-center justify-center">
+                <span className="text-8xl font-black text-slate-200 select-none tracking-widest">
+                     EDITOR MODE
+              </span>
+            </div>
           </div>
           <ConnectorLayer nodes={nodeState}/>
           {nodeState.map((node)=>(
@@ -118,6 +123,7 @@ const handleMouseUp = useCallback(() => {
       <PropertiesPanel
          selectedNode={selectedNode}
          nodesState={nodeState}
+         setNodesState={setNodestate}
         />
       </>):(
         <div className="absolute inset-0 flex flex-col bg-[#f0f4f8] z-[100]">
