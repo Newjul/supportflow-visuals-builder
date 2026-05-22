@@ -2,13 +2,14 @@ export default function PropertiesPanel({
     selectedNode,
     nodesState,
     setNodesState,
-    
+    onClose,
 }){ 
     if (!selectedNode) return null;
     const panelOffsetX = 320;
     const panelOffsetY = -20;
     return (
         <div className="absolute w-64 bg-white border shadow-lg rounded-lg p-3 z-50"
+        onMouseLeave={onClose}
         style={{
             left:selectedNode.position.x + panelOffsetX,
             top:selectedNode.position.y + panelOffsetY,

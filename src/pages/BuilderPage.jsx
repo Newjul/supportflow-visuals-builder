@@ -74,7 +74,7 @@ const handleMouseUp = useCallback(() => {
      { mode === "edit" ? (<>
       
       <div className="relative bg-white shadow-xl rounded-2xl overflow-hidden"
-
+       
        style={{
         width:w,
         height:h,
@@ -116,7 +116,9 @@ const handleMouseUp = useCallback(() => {
             <Node key={node.id} node={node}
             onSelect={setSelectNodeId}
             selected={selectNodeId === node.id}
-            onMouseDown={handleMouseDown}/>
+            onMouseDown={handleMouseDown}
+            />
+             
           ))}
          </div>
       </div>
@@ -124,6 +126,7 @@ const handleMouseUp = useCallback(() => {
          selectedNode={selectedNode}
          nodesState={nodeState}
          setNodesState={setNodestate}
+         onClose={() => setSelectNodeId(null)}
         />
       </>):(
         <div className="absolute inset-0 flex flex-col bg-[#f0f4f8] z-[100]">
